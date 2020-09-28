@@ -19,6 +19,9 @@ private:
 	bool on_ground = true; // True if the plane is on the ground
 	double pitch = 0; // Pitch attitude in degrees (+ is up, - is down)
 	double pitch_rate = 0; // Pitch attitude rate in degrees/sec (+ is up, - is down)
+	double roll_rate = 0;
+	double yaw_rate = 0;
+	double yaw = 0;
 	double radio_height = 0; // Radio altimeter in feet
 	double roll = 0; // Roll attitude in degrees (+ is right, - is left)
 	double vertical_speed = 0; // Vertical speed (relative to the earth) in feet/second
@@ -26,6 +29,8 @@ private:
 	double vmo = DBL_MAX; // The Vmo speed in knots
 
 	double last_pitch = 0;
+	double last_yaw = 0;
+	double last_roll = 0;
 	double last_vfpa = 0;
 
 	double FetchSimVar(const char * name, const char * units, const int index, const double fallback)
@@ -109,6 +114,8 @@ public:
 	{
 		// Pre-update (for derived values)
 		last_pitch = pitch;
+		last_roll = roll;
+		last_yaw = yaw;
 		last_vfpa = VFPA();
 
 		// Update
@@ -127,9 +134,12 @@ public:
 		roll = -FetchSimVar("PLANE BANK DEGREES", "Degrees", 0, 0);
 		vertical_speed = FetchSimVar("VELOCITY WORLD Y", "Feet per second", 0, 0);
 		vmo = FetchSimVar("AIRSPEED BARBER POLE", "Knots", 0, DBL_MAX); // TODO: Get this data from the FCOM instead of the SimVar
+		yaw = FetchSimVar("YAW STRING ANGLE", "Radians", 0, 0); // TODO: Better measure other than "YAW STRING ANGLE" to get YAW RATE, this seems wrong....
 
 		// Derived values
 		pitch_rate = (pitch - last_pitch) / dt;
+		roll_rate = (roll - last_roll) / dt;
+		yaw_rate = (yaw - last_yaw) / dt;
 		vfpa_rate = (VFPA() - last_vfpa) / dt;
 	}
 };

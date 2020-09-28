@@ -102,11 +102,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="fbw_sys.cpp" />
+    <ClCompile Include="lateral_law.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
     <ClInclude Include="controls.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="lateral_law.h" />
     <ClInclude Include="pid.h" />
     <ClInclude Include="pitch.h" />
     <ClInclude Include="pitch_control_mode.h" />
