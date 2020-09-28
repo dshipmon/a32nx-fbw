@@ -1,0 +1,7 @@
+MSFS/**
+.vs/**
+*.wasm
+*.bat
+A32NX/build.py
+A32NX/layout.json
+A32NX/manifest.json
